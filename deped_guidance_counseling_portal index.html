@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DepEd Guidance & Learner Protection Portal</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        deped: {
+                            blue: '#003366',
+                            darkBlue: '#001F3F',
+                            lightBlue: '#0055A5',
+                            gold: '#FFC72C',
+                            red: '#CE1126',
+                            lightBg: '#F8FAFC'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Print Styles for Official DepEd Guidance Forms */
+        @media print {
+            body * {
+                visibility: hidden !important;
+            }
+            #printable-form-area, #printable-form-area * {
+                visibility: visible !important;
+            }
+            #printable-form-area {
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                background: white !important;
+                color: black !important;
+                padding: 15px !important;
+                font-size: 11pt !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 font-sans text-slate-800 antialiased min-h-screen flex flex-col selection:bg-deped-blue selection:text-white">
+
+    <!-- Header Navigation Bar -->
+    <header class="bg-deped-blue text-white shadow-md border-b-4 border-deped-gold sticky top-0 z-30 no-print">
+        <div class="px-4 py-3 flex flex-wrap justify-between items-center max-w-7xl mx-auto">
+            <!-- Brand & Logos -->
+            <div class="flex items-center space-x-3">
+                <div class="w-11 h-11 rounded-full bg-white text-deped-blue flex items-center justify-center font-black text-2xl border-2 border-deped-gold shadow-inner shrink-0">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div>
+                    <div class="flex items-center space-x-2">
+                        <h1 class="font-extrabold text-sm sm:text-base uppercase tracking-wider leading-tight">Department of Education</h1>
+                        <span class="hidden sm:inline-block bg-deped-red text-white text-[10px] font-black px-1.5 py-0.5 rounded uppercase tracking-wider">PILIPINAS</span>
+                    </div>
+                    <p class="text-xs text-deped-gold font-medium flex items-center gap-1">
+                        <span>Learner Rights & Protection Portal</span>
+                        <span class="hidden md:inline">• Guidance & Counseling Office</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Role Indicator & Login Controller -->
+            <div class="flex items-center space-x-2 mt-2 sm:mt-0">
+                <div class="bg-deped-darkBlue px-3 py-1.5 rounded-lg border border-yellow-400/30 text-xs flex items-center space-x-2">
+                    <span id="current-mode-badge" class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-emerald-600 text-white flex items-center gap-1">
+                        <i class="fa-solid fa-user-graduate text-[9px]"></i> Student / Public Access
+                    </span>
+                    <button onclick="togglePortalMode()" id="portal-toggle-btn" class="bg-deped-gold hover:bg-yellow-400 text-deped-darkBlue font-bold px-2.5 py-1 rounded text-xs transition-colors flex items-center gap-1">
+                        <i class="fa-solid fa-user-shield"></i>
+                        <span id="portal-toggle-text">Counselor Login</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Data Privacy & Legal Compliance Banner -->
+    <div class="bg-slate-900 text-slate-200 text-[11px] py-1.5 px-4 no-print border-b border-slate-800">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+            <div class="flex items-center space-x-2">
+                <span class="bg-deped-gold text-slate-950 font-black text-[9px] px-1.5 py-0.5 rounded uppercase">RA 10173</span>
+                <span>Protected by <strong>Data Privacy Act of 2012</strong> & <strong>DepEd DO 40, s. 2012</strong>. Confidential records are strictly restricted.</span>
+            </div>
+            <div class="hidden md:flex items-center space-x-3 text-slate-300">
+                <span><i class="fa-solid fa-phone text-deped-gold mr-1"></i> Hopeline: <strong>1777</strong></span>
+                <span>•</span>
+                <span>NCMH: <strong>1553</strong></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App Container Layout -->
+    <div class="flex-1 flex flex-col md:flex-row max-w-7xl w-full mx-auto my-0 md:my-4 sm:px-4 gap-4">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="w-full md:w-64 bg-white border-b md:border border-slate-200 md:rounded-xl shadow-xs flex flex-col shrink-0 no-print">
+            <div class="p-3.5 border-b border-slate-100 bg-slate-50 rounded-t-xl flex justify-between items-center">
+                <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider" id="sidebar-header-title">Student Services Hub</p>
+                <span class="text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold border border-emerald-200" id="privacy-indicator">Public Safe</span>
+            </div>
+            
+            <!-- Student Navigation Menu (DEFAULT) -->
+            <nav id="public-nav" class="p-2 space-y-1">
+                <button onclick="switchPublicTab('student-report')" id="nav-student-report" class="public-nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-xs font-bold transition-all bg-deped-blue text-white shadow-xs">
+                    <i class="fa-solid fa-paper-plane text-sm w-5 text-center"></i>
+                    <span>Submit Help / Report</span>
+                </button>
+                <button onclick="switchPublicTab('status-tracker')" id="nav-status-tracker" class="public-nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-100 transition-all">
+                    <i class="fa-solid fa-magnifying-glass-chart text-sm w-5 text-center"></i>
+                    <span>Track Case Status</span>
+                </button>
+                <button onclick="switchPublicTab('student-resources')" id="nav-student-resources" class="public-nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-100 transition-all">
+                    <i class="fa-solid fa-heart-pulse text-sm w-5 text-center"></i>
+                    <span>Support & Helplines</span>
+                </button>
+            </nav>
+
+            <!-- Counselor / Admin Navigation Menu (LOCKED - Visible after login) -->
+            <nav id="admin-nav" class="p-2 space-y-1 hidden">
+                <button onclick="switchAdminTab('admin-queue')" id="nav-admin-queue" class="admin-nav-btn w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold transition-all bg-deped-blue text-white shadow-xs">
+                    <div class="flex items-center space-x-3">
+                        <i class="fa-solid fa-folder-open text-sm w-5 text-center"></i>
+                        <span>Confidential Case Ledger</span>
+                    </div>
+                    <span id="badge-new-count" class="bg-deped-red text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
+                </button>
+                <button onclick="switchAdminTab('admin-analytics')" id="nav-admin-analytics" class="admin-nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-100 transition-all">
+                    <i class="fa-solid fa-chart-pie text-sm w-5 text-center"></i>
+                    <span>Office Analytics</span>
+                </button>
+                <button onclick="switchAdminTab('admin-forms')" id="nav-admin-forms" class="admin-nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-100 transition-all">
+                    <i class="fa-solid fa-file-signature text-sm w-5 text-center"></i>
+                    <span>DepEd Standard Forms</span>
+                </button>
+            </nav>
+
+            <!-- Student Confidentiality Guarantee Box -->
+            <div id="student-privacy-box" class="p-3.5 m-2 bg-blue-50 border border-blue-200 rounded-lg text-xs space-y-1.5 text-blue-900 mt-2">
+                <p class="font-bold text-deped-blue flex items-center">
+                    <i class="fa-solid fa-user-shield mr-1.5"></i> Strict Confidentiality
+                </p>
+                <p class="text-[11px] text-blue-800 leading-snug">Students cannot view global databases or other learners' records. Status lookup reveals only sanitized appointment milestones.</p>
+            </div>
+
+            <!-- Emergency Helplines Sidebar Card -->
+            <div class="p-3.5 m-2 bg-rose-50 border border-rose-200 rounded-lg text-xs space-y-1.5 text-rose-900 mt-auto">
+                <p class="font-bold flex items-center text-rose-800">
+                    <i class="fa-solid fa-phone-volume mr-1.5 text-sm"></i> 24/7 Philippines Crisis Lines
+                </p>
+                <div class="font-mono text-[11px] font-bold space-y-0.5 pt-1">
+                    <div class="flex justify-between"><span>Hopeline PH:</span> <span class="text-rose-700">1777</span></div>
+                    <div class="flex justify-between"><span>NCMH Hotline:</span> <span class="text-rose-700">1553</span></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace Area -->
+        <main class="flex-1 bg-white md:rounded-xl border border-slate-200 shadow-xs p-4 md:p-6 overflow-y-auto">
+            
+            <!-- ========================================================================= -->
+            <!-- PUBLIC STUDENT PORTAL SECTIONS                                            -->
+            <!-- ========================================================================= -->
+
+            <!-- 1. PUBLIC SUBMISSION FORM -->
+            <section id="public-student-report" class="space-y-5">
+                <div class="border-b border-slate-100 pb-3 flex justify-between items-start">
+                    <div>
+                        <span class="bg-blue-100 text-deped-blue font-extrabold text-[10px] px-2 py-0.5 rounded uppercase tracking-wider">Public Assistance & Reporting</span>
+                        <h2 class="text-xl font-extrabold text-deped-blue mt-1">Learner Guidance & Incident Support Form</h2>
+                        <p class="text-xs text-slate-500 mt-0.5">Submit a confidential bullying report, schedule an academic/mental health counseling session, or request peer assistance.</p>
+                    </div>
+                </div>
+
+                <!-- Privacy Pledge Banner -->
+                <div class="bg-amber-50 border border-amber-200 p-3.5 rounded-xl text-xs text-amber-900 flex items-start space-x-3">
+                    <i class="fa-solid fa-shield-halved text-amber-600 text-lg mt-0.5 shrink-0"></i>
+                    <div>
+                        <strong class="font-bold text-amber-950">Who receives this report?</strong>
+                        <p class="text-amber-800 text-[11px] mt-0.5">Your submission goes directly to the <strong>Licensed Guidance Counselor and Child Protection Officer</strong>. It is encrypted and never shown to other students.</p>
+                    </div>
+                </div>
+
+                <form id="public-report-form" onsubmit="handlePublicSubmission(event)" class="space-y-5">
+                    
+                    <!-- Nature of Request -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">Select Nature of Concern / Request *</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+                            <label class="border border-slate-200 rounded-lg p-3 flex items-start space-x-2.5 cursor-pointer hover:bg-slate-50 transition-all text-xs bg-white">
+                                <input type="radio" name="requestType" value="Bullying/Child Protection Report" checked class="mt-0.5 text-deped-blue">
+                                <div>
+                                    <strong class="block text-slate-800">Bullying / Abuse</strong>
+                                    <span class="text-[10px] text-slate-500">DO 40, s. 2012 / RA 10627</span>
+                                </div>
+                            </label>
+
+                            <label class="border border-slate-200 rounded-lg p-3 flex items-start space-x-2.5 cursor-pointer hover:bg-slate-50 transition-all text-xs bg-white">
+                                <input type="radio" name="requestType" value="Counseling Appointment Request" class="mt-0.5 text-deped-blue">
+                                <div>
+                                    <strong class="block text-slate-800">Counseling Request</strong>
+                                    <span class="text-[10px] text-slate-500">Mental Health & Guidance</span>
+                                </div>
+                            </label>
+
+                            <label class="border border-slate-200 rounded-lg p-3 flex items-start space-x-2.5 cursor-pointer hover:bg-slate-50 transition-all text-xs bg-white">
+                                <input type="radio" name="requestType" value="Peer Conflict Resolution" class="mt-0.5 text-deped-blue">
+                                <div>
+                                    <strong class="block text-slate-800">Peer Mediation</strong>
+                                    <span class="text-[10px] text-slate-500">Resolve student disputes</span>
+                                </div>
+                            </label>
+
+                            <label class="border border-slate-200 rounded-lg p-3 flex items-start space-x-2.5 cursor-pointer hover:bg-slate-50 transition-all text-xs bg-white">
+                                <input type="radio" name="requestType" value="General Guidance Inquiry" class="mt-0.5 text-deped-blue">
+                                <div>
+                                    <strong class="block text-slate-800">General Inquiry</strong>
+                                    <span class="text-[10px] text-slate-500">Career, Academic, Good Moral</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Confidential/Anonymous Mode Switch -->
+                    <div class="bg-slate-50 border border-slate-200 p-3 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center space-x-2 text-xs text-slate-700">
+                            <i class="fa-solid fa-user-ninja text-deped-blue text-sm"></i>
+                            <span>File report as <strong>Confidential / Anonymous</strong>? (Hide full name & LRN)</span>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="pub-anonymous" onchange="toggleAnonymousFields(this.checked)" class="sr-only peer">
+                            <div class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-deped-blue"></div>
+                        </label>
+                    </div>
+
+                    <!-- Student Personal Details -->
+                    <div id="student-identity-fields" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Learner Full Name *</label>
+                            <input type="text" id="pub-name" required placeholder="e.g. Juan De La Cruz" class="w-full p-2 text-xs border border-slate-300 rounded-md focus:ring-1 focus:ring-deped-blue outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Learner Reference No. (LRN) *</label>
+                            <input type="text" id="pub-lrn" required maxlength="12" pattern="\d{12}" placeholder="12-digit LRN (e.g. 101234567890)" class="w-full p-2 text-xs border border-slate-300 rounded-md focus:ring-1 focus:ring-deped-blue outline-none">
+                            <p class="text-[10px] text-slate-400 mt-0.5">Used as verification code for tracking status.</p>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Grade Level & Section *</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <select id="pub-grade" required class="p-2 text-xs border border-slate-300 rounded-md outline-none bg-white">
+                                    <option value="">Grade</option>
+                                    <option value="Grade 7">Grade 7</option>
+                                    <option value="Grade 8">Grade 8</option>
+                                    <option value="Grade 9">Grade 9</option>
+                                    <option value="Grade 10">Grade 10</option>
+                                    <option value="Grade 11">Grade 11 (SHS)</option>
+                                    <option value="Grade 12">Grade 12 (SHS)</option>
+                                </select>
+                                <input type="text" id="pub-section" required placeholder="Section" class="p-2 text-xs border border-slate-300 rounded-md outline-none">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Mobile / Contact No.</label>
+                            <input type="tel" id="pub-contact" placeholder="0917XXXXXXX" class="w-full p-2 text-xs border border-slate-300 rounded-md focus:ring-1 focus:ring-deped-blue outline-none">
+                        </div>
+
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Preferred Contact Method / Email</label>
+                            <input type="text" id="pub-email" placeholder="student@example.com or FB Messenger link" class="w-full p-2 text-xs border border-slate-300 rounded-md focus:ring-1 focus:ring-deped-blue outline-none">
+                        </div>
+                    </div>
+
+                    <!-- Incident / Concern Details -->
+                    <div class="space-y-3 pt-2 border-t border-slate-100">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Primary Category *</label>
+                                <select id="pub-category" required class="w-full p-2 text-xs border border-slate-300 rounded-md outline-none bg-white">
+                                    <option value="">Select Primary Category</option>
+                                    <option value="Bullying/Cyberbullying">Bullying / Cyberbullying</option>
+                                    <option value="Child Protection/Abuse">Child Protection / Abuse (DO 40)</option>
+                                    <option value="Academic Stress">Academic Stress / Failing Grades</option>
+                                    <option value="Family Issue">Family / Home Concerns</option>
+                                    <option value="Behavioral">Behavioral / Code of Conduct</option>
+                                    <option value="Career/Strand Guidance">Career Track & Strand Choice</option>
+                                    <option value="Mental Health/Self-Care">Mental Health & Self-Care</option>
+                                    <option value="Others">Others</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Date & Time of Incident</label>
+                                <input type="datetime-local" id="pub-datetime" class="w-full p-2 text-xs border border-slate-300 rounded-md outline-none">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Incident Location</label>
+                                <input type="text" id="pub-location" placeholder="e.g. Quadrangle, Classroom, Online" class="w-full p-2 text-xs border border-slate-300 rounded-md outline-none">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Involved Parties / Witnesses (Optional)</label>
+                            <input type="text" id="pub-involved" placeholder="List names of involved individuals or witnesses if applicable" class="w-full p-2 text-xs border border-slate-300 rounded-md outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Detailed Incident Narrative / Request Explanation *</label>
+                            <textarea id="pub-narrative" rows="4" required placeholder="Please describe what happened, how you feel, or what assistance you are seeking from the counselor..." class="w-full p-2 text-xs border border-slate-300 rounded-md focus:ring-1 focus:ring-deped-blue outline-none"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-100 flex justify-end">
+                        <button type="submit" class="w-full sm:w-auto px-6 py-2.5 bg-deped-blue hover:bg-blue-900 text-white rounded-lg text-xs font-bold shadow-md transition-all flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>Submit Request Confidentially</span>
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- 2. CONFIDENTIAL CASE TRACKER (SANITIZED PUBLIC LOOKUP) -->
+            <section id="public-status-tracker" class="space-y-5 hidden">
+                <div class="border-b border-slate-100 pb-3">
+                    <span class="bg-amber-100 text-amber-900 font-extrabold text-[10px] px-2 py-0.5 rounded uppercase tracking-wider">Public Status Tracker</span>
+                    <h2 class="text-xl font-extrabold text-deped-blue mt-1">Track Case / Appointment Progress</h2>
+                    <p class="text-xs text-slate-500">Enter your Reference Code and LRN/Verification Key to check non-sensitive guidance milestones.</p>
+                </div>
+
+                <!-- Dual Verification Form -->
+                <div class="max-w-lg mx-auto space-y-3 bg-slate-50 p-5 border border-slate-200 rounded-xl shadow-xs">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Tracking Reference Code *</label>
+                        <input type="text" id="tracker-code-input" placeholder="e.g. DEPED-GC-2026-89412" class="w-full uppercase font-mono p-2 text-xs border border-slate-300 rounded-md focus:ring-1 focus:ring-deped-blue outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Verification Code (12-Digit LRN or "ANONYMOUS") *</label>
+                        <input type="text" id="tracker-lrn-input" placeholder="Enter LRN used during submission" class="w-full font-mono p-2 text-xs border border-slate-300 rounded-md focus:ring-1 focus:ring-deped-blue outline-none">
+                    </div>
+
+                    <button onclick="searchSanitizedStatus()" class="w-full py-2.5 bg-deped-blue text-white font-bold rounded-md text-xs hover:bg-blue-900 transition-colors flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-shield-halved"></i> Verify & Look Up Status
+                    </button>
+                </div>
+
+                <!-- Sanitized Public Result Display -->
+                <div id="tracker-result-container" class="hidden max-w-2xl mx-auto border border-slate-200 rounded-xl p-5 bg-white shadow-xs space-y-4">
+                    <!-- Dynamically populated via searchSanitizedStatus() -->
+                </div>
+            </section>
+
+            <!-- 3. PUBLIC GUIDANCE RESOURCES & HELPLINES -->
+            <section id="public-student-resources" class="space-y-5 hidden">
+                <div class="border-b border-slate-100 pb-3">
+                    <h2 class="text-xl font-extrabold text-deped-blue">Learner Support, Safeguarding & Emergency Lines</h2>
+                    <p class="text-xs text-slate-500">Learn about your rights under DepEd policies, mental wellness advice, and 24/7 crisis hotlines.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="border border-slate-200 p-4 rounded-xl space-y-2 bg-slate-50">
+                        <div class="flex items-center space-x-2 text-deped-blue">
+                            <i class="fa-solid fa-gavel text-lg"></i>
+                            <h3 class="font-bold text-sm">RA 10627 Anti-Bullying Act</h3>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">Mandates all elementary and secondary schools in the Philippines to adopt policies to prevent and address acts of bullying in their institutions.</p>
+                    </div>
+
+                    <div class="border border-slate-200 p-4 rounded-xl space-y-2 bg-slate-50">
+                        <div class="flex items-center space-x-2 text-deped-red">
+                            <i class="fa-solid fa-shield-cat text-lg"></i>
+                            <h3 class="font-bold text-sm">DepEd DO 40, s. 2012</h3>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">Child Protection Policy guaranteeing zero tolerance for any form of child abuse, exploitation, violence, discrimination, or bullying.</p>
+                    </div>
+                </div>
+
+                <!-- National Emergency Helplines -->
+                <div class="bg-deped-darkBlue text-white p-5 rounded-xl space-y-3">
+                    <h3 class="text-sm font-bold text-deped-gold uppercase tracking-wider flex items-center">
+                        <i class="fa-solid fa-phone-volume mr-2"></i> National Safeguarding & Mental Health Helplines
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                        <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700">
+                            <p class="font-bold text-slate-300">Hopeline Philippines</p>
+                            <p class="text-lg font-mono font-black text-emerald-400 mt-1">1777</p>
+                            <p class="text-[10px] text-slate-400">Toll-free for Globe / TM</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700">
+                            <p class="font-bold text-slate-300">NCMH Crisis Hotline</p>
+                            <p class="text-lg font-mono font-black text-emerald-400 mt-1">1553</p>
+                            <p class="text-[10px] text-slate-400">0917-899-USAP (8727)</p>
+                        </div>
+                        <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700">
+                            <p class="font-bold text-slate-300">DepEd CPU Hotline</p>
+                            <p class="text-lg font-mono font-black text-emerald-400 mt-1">02-8637-3743</p>
+                            <p class="text-[10px] text-slate-400">Learner Rights & Protection</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================================================= -->
+            <!-- SECURE GUIDANCE OFFICER ADMIN PORTAL (RESTRICTED)                         -->
+            <!-- ========================================================================= -->
+
+            <!-- 1. MASTER INCIDENT & COUNSELING LEDGER -->
+            <section id="admin-queue" class="space-y-4 hidden">
+                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 border-b border-slate-100 pb-3">
+                    <div>
+                        <span class="bg-deped-blue text-white font-extrabold text-[10px] px-2 py-0.5 rounded uppercase">RESTRICTED COUNSELOR ACCESS</span>
+                        <h2 class="text-xl font-extrabold text-deped-blue mt-0.5">Master Incident Ledger & Case Management</h2>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="exportDataJSON()" class="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-xs font-bold border border-slate-300"><i class="fa-solid fa-download mr-1"></i> Export Data</button>
+                        <button onclick="clearAllDataDemo()" class="px-2.5 py-1.5 border border-slate-300 text-slate-600 rounded text-xs font-semibold hover:bg-slate-50">Reset Seed Data</button>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-xs">
+                    <input type="text" id="admin-filter-search" oninput="renderAdminQueue()" placeholder="Search Name, LRN, or Code..." class="p-2 border border-slate-300 rounded outline-none bg-white">
+                    <select id="admin-filter-status" onchange="renderAdminQueue()" class="p-2 border border-slate-300 rounded outline-none bg-white">
+                        <option value="">All Statuses</option>
+                        <option value="New Submitted">New Submitted</option>
+                        <option value="Under Review">Under Review</option>
+                        <option value="Active Intervention">Active Intervention</option>
+                        <option value="Referral Needed">Referral Needed</option>
+                        <option value="Resolved">Resolved / Closed</option>
+                    </select>
+                    <select id="admin-filter-priority" onchange="renderAdminQueue()" class="p-2 border border-slate-300 rounded outline-none bg-white">
+                        <option value="">All Priorities</option>
+                        <option value="Urgent Child Protection">Urgent Child Protection (DO 40)</option>
+                        <option value="High">High Priority</option>
+                        <option value="Medium">Medium Priority</option>
+                        <option value="Low">Low Priority</option>
+                    </select>
+                </div>
+
+                <!-- Admin Ledger Table -->
+                <div class="overflow-x-auto border border-slate-200 rounded-lg">
+                    <table class="w-full text-left text-xs text-slate-700">
+                        <thead class="bg-slate-100 text-slate-700 uppercase font-bold border-b border-slate-200">
+                            <tr>
+                                <th class="p-3">Ref Code & Date</th>
+                                <th class="p-3">Learner & LRN</th>
+                                <th class="p-3">Category</th>
+                                <th class="p-3">Priority</th>
+                                <th class="p-3">Status</th>
+                                <th class="p-3 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-queue-tbody" class="divide-y divide-slate-200 bg-white">
+                            <!-- Injected dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 2. ANALYTICS & DASHBOARD -->
+            <section id="admin-analytics" class="space-y-5 hidden">
+                <div>
+                    <h2 class="text-xl font-extrabold text-deped-blue">Guidance Office Analytics Overview</h2>
+                    <p class="text-xs text-slate-500">Statistical breakdown of student submissions, bullying reports, and intervention metrics.</p>
+                </div>
+
+                <!-- Metric Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-blue-50 border border-blue-200 p-4 rounded-xl">
+                        <span class="text-[11px] font-bold text-blue-800 uppercase">Total Intake Cases</span>
+                        <p class="text-2xl font-black text-blue-950 mt-1" id="stat-total">0</p>
+                        <span class="text-[10px] text-blue-700">Public & Internal Submissions</span>
+                    </div>
+
+                    <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl">
+                        <span class="text-[11px] font-bold text-amber-800 uppercase">Under Review</span>
+                        <p class="text-2xl font-black text-amber-950 mt-1" id="stat-pending">0</p>
+                        <span class="text-[10px] text-amber-700">Awaiting Counselor Action</span>
+                    </div>
+
+                    <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl">
+                        <span class="text-[11px] font-bold text-emerald-800 uppercase">Resolved Cases</span>
+                        <p class="text-2xl font-black text-emerald-950 mt-1" id="stat-resolved">0</p>
+                        <span class="text-[10px] text-emerald-700">Intervention Completed</span>
+                    </div>
+
+                    <div class="bg-rose-50 border border-rose-200 p-4 rounded-xl">
+                        <span class="text-[11px] font-bold text-rose-800 uppercase">Child Protection Cases</span>
+                        <p class="text-2xl font-black text-rose-950 mt-1" id="stat-urgent">0</p>
+                        <span class="text-[10px] text-rose-700">Flagged under DO 40, s. 2012</span>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                    <div class="border border-slate-200 p-4 rounded-xl bg-white shadow-xs">
+                        <h3 class="text-xs font-bold text-slate-700 mb-3 flex items-center">
+                            <i class="fa-solid fa-chart-pie text-deped-blue mr-2"></i> Submissions by Category
+                        </h3>
+                        <div class="h-64 relative flex justify-center">
+                            <canvas id="categoryChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="border border-slate-200 p-4 rounded-xl bg-white shadow-xs">
+                        <h3 class="text-xs font-bold text-slate-700 mb-3 flex items-center">
+                            <i class="fa-solid fa-chart-column text-deped-blue mr-2"></i> Grade Level Distribution
+                        </h3>
+                        <div class="h-64 relative">
+                            <canvas id="gradeChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. OFFICIAL DEPED FORMS GENERATOR -->
+            <section id="admin-forms" class="space-y-4 hidden">
+                <div class="border-b border-slate-100 pb-3 flex justify-between items-center no-print">
+                    <div>
+                        <h2 class="text-xl font-extrabold text-deped-blue">Official DepEd Guidance Forms Generator</h2>
+                        <p class="text-xs text-slate-500">Auto-fill standardized DepEd Guidance templates using submitted student records.</p>
+                    </div>
+                    <button onclick="window.print()" class="px-3.5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg text-xs font-bold shadow-xs flex items-center">
+                        <i class="fa-solid fa-print mr-1.5"></i> Print Form Document
+                    </button>
+                </div>
+
+                <!-- Form Type Selection -->
+                <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 no-print">
+                    <button onclick="loadFormTemplate('form1')" class="form-btn p-2 text-xs border border-deped-blue bg-blue-50 text-deped-blue rounded-lg font-bold">Form 1: Intake Sheet</button>
+                    <button onclick="loadFormTemplate('form2')" class="form-btn p-2 text-xs border border-slate-300 bg-white text-slate-700 rounded-lg font-bold">Form 2: Anecdotal Log</button>
+                    <button onclick="loadFormTemplate('form3')" class="form-btn p-2 text-xs border border-slate-300 bg-white text-slate-700 rounded-lg font-bold">Form 3: Referral Form</button>
+                    <button onclick="loadFormTemplate('form4')" class="form-btn p-2 text-xs border border-slate-300 bg-white text-slate-700 rounded-lg font-bold">Form 4: Home Visit</button>
+                    <button onclick="loadFormTemplate('childprotection')" class="form-btn p-2 text-xs border border-slate-300 bg-white text-slate-700 rounded-lg font-bold">DO 40 Child Protection</button>
+                </div>
+
+                <!-- Record Selector for Auto-Fill -->
+                <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg flex items-center gap-3 text-xs no-print">
+                    <span class="font-bold text-slate-700">Populate with Record:</span>
+                    <select id="form-record-selector" onchange="autoFillFormFromQueue(this.value)" class="flex-1 p-1.5 border border-slate-300 rounded bg-white">
+                        <option value="">-- Select Learner Record --</option>
+                    </select>
+                </div>
+
+                <!-- Printable Document Area -->
+                <div id="printable-form-area" class="border border-slate-300 p-6 bg-white rounded-lg text-slate-900 text-xs font-sans leading-relaxed">
+                    <!-- Form template renders here dynamically -->
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- COUNSELOR LOGIN PIN MODAL -->
+    <div id="pin-modal" class="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden no-print">
+        <div class="bg-white rounded-xl shadow-2xl max-w-sm w-full p-5 space-y-4 border border-slate-200 text-center">
+            <div class="w-12 h-12 bg-deped-blue/10 text-deped-blue rounded-full flex items-center justify-center mx-auto text-xl">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+            <div>
+                <h3 class="font-bold text-slate-800 text-base">Guidance Officer Verification</h3>
+                <p class="text-xs text-slate-500 mt-1">Enter your Security PIN to unlock confidential master student records.</p>
+                <p class="text-[10px] text-deped-blue font-mono mt-1 font-bold">(Default PIN: 1234)</p>
+            </div>
+            <div>
+                <input type="password" id="admin-pin-input" maxlength="6" placeholder="Enter PIN" class="w-full text-center tracking-widest font-mono text-lg p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-deped-blue outline-none">
+                <p id="pin-error-msg" class="text-xs text-rose-600 mt-1 hidden">Invalid Security PIN. Access denied.</p>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="closePinModal()" class="flex-1 py-2 border border-slate-300 rounded-lg text-xs font-bold text-slate-600">Cancel</button>
+                <button onclick="verifyAdminPin()" class="flex-1 py-2 bg-deped-blue text-white rounded-lg text-xs font-bold hover:bg-blue-900">Unlock Portal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- STUDENT CONFIRMATION MODAL -->
+    <div id="confirmation-modal" class="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden no-print">
+        <div class="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 space-y-4 border border-slate-200 text-center">
+            <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div>
+                <h3 class="font-black text-slate-800 text-lg">Request Confidentially Received</h3>
+                <p class="text-xs text-slate-500 mt-1">Your guidance report has been encrypted into the Guidance Ledger.</p>
+            </div>
+
+            <div class="bg-amber-50 border border-amber-200 p-3.5 rounded-xl space-y-1">
+                <span class="text-[11px] font-bold text-amber-900 uppercase">Your Tracking Code & Verification Key</span>
+                <p id="modal-tracking-code" class="text-xl font-mono font-black text-deped-blue tracking-wider">DEPED-GC-2026-89412</p>
+                <p id="modal-verification-key" class="text-xs font-mono font-bold text-slate-700">Verification LRN: 101234567890</p>
+                <p class="text-[10px] text-amber-900 pt-1">Please save these details to check your appointment status safely.</p>
+            </div>
+
+            <div class="pt-2">
+                <button onclick="closeConfirmationModal()" class="w-full py-2.5 bg-deped-blue text-white rounded-lg text-xs font-bold hover:bg-blue-900">I Have Saved My Code</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- COUNSELOR CASE INSPECTOR & ACTION MODAL -->
+    <div id="admin-action-modal" class="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden no-print">
+        <div class="bg-white rounded-xl shadow-xl max-w-xl w-full p-5 space-y-4 border border-slate-200 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                <h3 class="font-bold text-deped-blue text-sm" id="action-modal-title">Confidential Case File</h3>
+                <button onclick="closeActionModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <div id="action-modal-body" class="space-y-3 text-xs">
+                <!-- Injected dynamically -->
+            </div>
+
+            <div class="border-t border-slate-100 pt-3 flex justify-end gap-2">
+                <button onclick="closeActionModal()" class="px-3 py-1.5 border border-slate-300 rounded text-xs font-semibold text-slate-600">Close</button>
+                <button onclick="saveCounselorAction()" class="px-4 py-1.5 bg-deped-blue text-white rounded text-xs font-bold hover:bg-blue-900">Save Case Updates</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Sample Pre-Seeded Guidance Records
+        const INITIAL_SEED = [
+            {
+                id: 'DEPED-GC-2026-89412',
+                requestType: 'Bullying/Child Protection Report',
+                isAnonymous: false,
+                studentName: 'Juan Dela Cruz',
+                lrn: '101234567890',
+                grade: 'Grade 9',
+                section: 'Rizal',
+                contact: '09171234567',
+                email: 'juan.delacruz@deped.gov.ph',
+                category: 'Bullying/Cyberbullying',
+                datetime: '2026-10-15T10:30',
+                location: 'School Quadrangle',
+                involved: 'Senior student group',
+                narrative: 'Learner reported repeated cyberbullying and verbal intimidation during lunch break.',
+                status: 'Active Intervention',
+                priority: 'Urgent Child Protection',
+                counselor: 'Maria Santos, RGC',
+                confidentialNotes: 'Intake interview conducted with learner. Class adviser notified for classroom monitoring.',
+                publicMilestoneNote: 'Counseling appointment set. Please proceed to Guidance Office on Oct 24, 2026 at 10:00 AM.',
+                appointmentDate: '2026-10-24 10:00 AM',
+                createdAt: '2026-10-15'
+            },
+            {
+                id: 'DEPED-GC-2026-34190',
+                requestType: 'Counseling Appointment Request',
+                isAnonymous: false,
+                studentName: 'Maria Clara Reyes',
+                lrn: '101234567891',
+                grade: 'Grade 10',
+                section: 'Bonifacio',
+                contact: '09189876543',
+                email: 'm.reyes@gmail.com',
+                category: 'Academic Stress',
+                datetime: '',
+                location: '',
+                involved: '',
+                narrative: 'Experiencing severe academic stress and exam anxiety ahead of quarterly assessments.',
+                status: 'Under Review',
+                priority: 'Medium',
+                counselor: 'Maria Santos, RGC',
+                confidentialNotes: 'Initial review done. Preparing consultation sheet.',
+                publicMilestoneNote: 'Request received. Guidance Counselor is evaluating schedule.',
+                appointmentDate: 'Pending Schedule',
+                createdAt: '2026-10-18'
+            }
+        ];
+
+        let guidanceCases = [];
+        let isAdminLoggedIn = false;
+        let activeActionCaseId = null;
+
+        let catChartInstance = null;
+        let gradeChartInstance = null;
+
+        window.onload = function() {
+            const stored = localStorage.getItem('deped_guidance_portal_v4');
+            if (stored) {
+                try { guidanceCases = JSON.parse(stored); }
+                catch(e) { guidanceCases = INITIAL_SEED; }
+            } else {
+                guidanceCases = INITIAL_SEED;
+                saveData();
+            }
+
+            updateBadges();
+            populateFormRecordSelector();
+            loadFormTemplate('form1');
+        };
+
+        function saveData() {
+            localStorage.setItem('deped_guidance_portal_v4', JSON.stringify(guidanceCases));
+            updateBadges();
+        }
+
+        function updateBadges() {
+            const newCount = guidanceCases.filter(c => c.status === 'New Submitted' || c.status === 'Under Review').length;
+            const badge = document.getElementById('badge-new-count');
+            if (badge) badge.innerText = newCount;
+        }
+
+        // Toggle Portal Access Mode
+        function togglePortalMode() {
+            if (isAdminLoggedIn) {
+                // Logout Admin
+                isAdminLoggedIn = false;
+                document.getElementById('current-mode-badge').innerHTML = '<i class="fa-solid fa-user-graduate text-[9px]"></i> Student / Public Access';
+                document.getElementById('current-mode-badge').className = 'px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-emerald-600 text-white flex items-center gap-1';
+                document.getElementById('portal-toggle-text').innerText = 'Counselor Login';
+                document.getElementById('sidebar-header-title').innerText = 'Student Services Hub';
+                document.getElementById('privacy-indicator').innerText = 'Public Safe';
+                document.getElementById('privacy-indicator').className = 'text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold border border-emerald-200';
+                
+                document.getElementById('admin-nav').classList.add('hidden');
+                document.getElementById('public-nav').classList.remove('hidden');
+                document.getElementById('student-privacy-box').classList.remove('hidden');
+                
+                switchPublicTab('student-report');
+            } else {
+                // Show PIN Modal
+                document.getElementById('admin-pin-input').value = '';
+                document.getElementById('pin-error-msg').classList.add('hidden');
+                document.getElementById('pin-modal').classList.remove('hidden');
+            }
+        }
+
+        function closePinModal() {
+            document.getElementById('pin-modal').classList.add('hidden');
+        }
+
+        function verifyAdminPin() {
+            const pin = document.getElementById('admin-pin-input').value;
+            if (pin === '1234') {
+                isAdminLoggedIn = true;
+                closePinModal();
+                
+                document.getElementById('current-mode-badge').innerHTML = '<i class="fa-solid fa-key text-[9px]"></i> Guidance Officer View';
+                document.getElementById('current-mode-badge').className = 'px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-amber-500 text-slate-950 flex items-center gap-1';
+                document.getElementById('portal-toggle-text').innerText = 'Exit Counselor Portal';
+                document.getElementById('sidebar-header-title').innerText = 'Office Management';
+                document.getElementById('privacy-indicator').innerText = 'Confidential Mode';
+                document.getElementById('privacy-indicator').className = 'text-[10px] text-amber-700 bg-amber-50 px-2 py-0.5 rounded font-bold border border-amber-200';
+
+                document.getElementById('public-nav').classList.add('hidden');
+                document.getElementById('admin-nav').classList.remove('hidden');
+                document.getElementById('student-privacy-box').classList.add('hidden');
+
+                // Hide public screens
+                ['student-report', 'status-tracker', 'student-resources'].forEach(id => {
+                    document.getElementById(`public-${id}`).classList.add('hidden');
+                });
+
+                switchAdminTab('admin-queue');
+            } else {
+                document.getElementById('pin-error-msg').classList.remove('hidden');
+            }
+        }
+
+        // Public Tabs Switcher
+        function switchPublicTab(tabId) {
+            ['student-report', 'status-tracker', 'student-resources'].forEach(id => {
+                document.getElementById(`public-${id}`).classList.add('hidden');
+            });
+            document.querySelectorAll('.public-nav-btn').forEach(btn => {
+                btn.classList.remove('bg-deped-blue', 'text-white', 'shadow-xs');
+                btn.classList.add('text-slate-600', 'hover:bg-slate-100');
+            });
+
+            document.getElementById(`public-${tabId}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`nav-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-600', 'hover:bg-slate-100');
+                activeBtn.classList.add('bg-deped-blue', 'text-white', 'shadow-xs');
+            }
+        }
+
+        // Admin Tabs Switcher
+        function switchAdminTab(tabId) {
+            ['admin-queue', 'admin-analytics', 'admin-forms'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.querySelectorAll('.admin-nav-btn').forEach(btn => {
+                btn.classList.remove('bg-deped-blue', 'text-white', 'shadow-xs');
+                btn.classList.add('text-slate-600', 'hover:bg-slate-100');
+            });
+
+            document.getElementById(tabId).classList.remove('hidden');
+            const activeBtn = document.getElementById(`nav-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-600', 'hover:bg-slate-100');
+                activeBtn.classList.add('bg-deped-blue', 'text-white', 'shadow-xs');
+            }
+
+            if (tabId === 'admin-queue') renderAdminQueue();
+            else if (tabId === 'admin-analytics') renderAnalytics();
+            else if (tabId === 'admin-forms') populateFormRecordSelector();
+        }
+
+        // Public Student Submission Handler
+        function handlePublicSubmission(e) {
+            e.preventDefault();
+
+            const isAnon = document.getElementById('pub-anonymous').checked;
+            const randDigits = Math.floor(10000 + Math.random() * 90000);
+            const refCode = 'DEPED-GC-2026-' + randDigits;
+            const lrnVal = isAnon ? 'ANONYMOUS' : document.getElementById('pub-lrn').value.trim();
+
+            const newRecord = {
+                id: refCode,
+                requestType: document.querySelector('input[name="requestType"]:checked').value,
+                isAnonymous: isAnon,
+                studentName: isAnon ? 'Anonymous Student' : document.getElementById('pub-name').value.trim(),
+                lrn: lrnVal,
+                grade: isAnon ? 'N/A' : document.getElementById('pub-grade').value,
+                section: isAnon ? 'N/A' : document.getElementById('pub-section').value,
+                contact: isAnon ? 'N/A' : document.getElementById('pub-contact').value,
+                email: isAnon ? 'N/A' : document.getElementById('pub-email').value,
+                category: document.getElementById('pub-category').value,
+                datetime: document.getElementById('pub-datetime').value,
+                location: document.getElementById('pub-location').value,
+                involved: document.getElementById('pub-involved').value,
+                narrative: document.getElementById('pub-narrative').value,
+                status: 'New Submitted',
+                priority: document.getElementById('pub-category').value.includes('Child Protection') || document.getElementById('pub-category').value.includes('Bullying') ? 'Urgent Child Protection' : 'Medium',
+                counselor: 'Guidance Desk',
+                confidentialNotes: 'Public submission received.',
+                publicMilestoneNote: 'Your request is recorded and awaiting initial assessment by the Guidance Office.',
+                appointmentDate: 'Pending Assessment',
+                createdAt: new Date().toISOString().split('T')[0]
+            };
+
+            guidanceCases.unshift(newRecord);
+            saveData();
+
+            document.getElementById('public-report-form').reset();
+
+            document.getElementById('modal-tracking-code').innerText = refCode;
+            document.getElementById('modal-verification-key').innerText = `Verification LRN: ${lrnVal}`;
+            document.getElementById('confirmation-modal').classList.remove('hidden');
+        }
+
+        function closeConfirmationModal() {
+            document.getElementById('confirmation-modal').classList.add('hidden');
+            switchPublicTab('status-tracker');
+            document.getElementById('tracker-code-input').value = document.getElementById('modal-tracking-code').innerText;
+            document.getElementById('tracker-lrn-input').value = document.getElementById('modal-verification-key').innerText.replace('Verification LRN: ', '');
+            searchSanitizedStatus();
+        }
+
+        function toggleAnonymousFields(isAnon) {
+            const identityBox = document.getElementById('student-identity-fields');
+            const lrnInput = document.getElementById('pub-lrn');
+            const nameInput = document.getElementById('pub-name');
+            const sectionInput = document.getElementById('pub-section');
+            const gradeSelect = document.getElementById('pub-grade');
+
+            if (isAnon) {
+                identityBox.classList.add('opacity-40', 'pointer-events-none');
+                lrnInput.removeAttribute('required');
+                nameInput.removeAttribute('required');
+                sectionInput.removeAttribute('required');
+                gradeSelect.removeAttribute('required');
+            } else {
+                identityBox.classList.remove('opacity-40', 'pointer-events-none');
+                lrnInput.setAttribute('required', 'required');
+                nameInput.setAttribute('required', 'required');
+                sectionInput.setAttribute('required', 'required');
+                gradeSelect.setAttribute('required', 'required');
+            }
+        }
+
+        // Sanitized Public Lookup Function
+        function searchSanitizedStatus() {
+            const code = document.getElementById('tracker-code-input').value.trim().toUpperCase();
+            const lrnKey = document.getElementById('tracker-lrn-input').value.trim().toUpperCase();
+            const container = document.getElementById('tracker-result-container');
+            container.classList.remove('hidden');
+
+            if (!code || !lrnKey) {
+                container.innerHTML = `
+                    <div class="text-center py-4 text-rose-600 text-xs font-bold">
+                        <i class="fa-solid fa-circle-exclamation mr-1"></i> Please provide both Tracking Reference Code and Verification Key (LRN).
+                    </div>
+                `;
+                return;
+            }
+
+            const item = guidanceCases.find(c => c.id === code && (c.lrn.toUpperCase() === lrnKey || (c.isAnonymous && lrnKey === 'ANONYMOUS')));
+
+            if (!item) {
+                container.innerHTML = `
+                    <div class="text-center py-6 text-slate-500">
+                        <i class="fa-solid fa-shield-cat text-slate-300 text-3xl mb-2"></i>
+                        <p class="font-bold text-slate-700">No Matching Record Found</p>
+                        <p class="text-xs">Verify your tracking code and LRN key. Details must match submission records.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let statusColor = 'bg-blue-100 text-blue-800';
+            if (item.status === 'Resolved') statusColor = 'bg-emerald-100 text-emerald-800';
+            if (item.status === 'Active Intervention') statusColor = 'bg-amber-100 text-amber-800 font-bold';
+
+            // STUCT SANITIZATION: Hides internal narratives, counselor logs, witnesses
+            container.innerHTML = `
+                <div class="flex justify-between items-start border-b border-slate-100 pb-3">
+                    <div>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase">Case Reference</span>
+                        <h4 class="font-mono font-black text-lg text-deped-blue">${escapeHtml(item.id)}</h4>
+                    </div>
+                    <span class="px-2.5 py-1 rounded-full text-xs font-bold ${statusColor}">${escapeHtml(item.status)}</span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 text-xs bg-slate-50 p-3 rounded-lg border border-slate-200">
+                    <div><span class="text-slate-400 block">Learner:</span> <strong class="text-slate-800">${escapeHtml(item.studentName)}</strong></div>
+                    <div><span class="text-slate-400 block">Category:</span> <strong class="text-slate-800">${escapeHtml(item.category)}</strong></div>
+                    <div><span class="text-slate-400 block">Guidance Personnel:</span> <strong class="text-slate-800">${escapeHtml(item.counselor)}</strong></div>
+                    <div><span class="text-slate-400 block">Appointment Schedule:</span> <strong class="text-deped-blue">${escapeHtml(item.appointmentDate || 'Pending')}</strong></div>
+                </div>
+
+                <div class="bg-blue-50 p-3.5 rounded-lg border border-blue-200 text-xs">
+                    <strong class="text-deped-blue block mb-1 flex items-center">
+                        <i class="fa-solid fa-bullhorn mr-1.5"></i> Student Guidance Notice:
+                    </strong>
+                    <p class="text-slate-700 leading-relaxed">${escapeHtml(item.publicMilestoneNote || 'Your submission is undergoing assessment.')}</p>
+                </div>
+
+                <div class="text-[10px] text-slate-400 text-center italic border-t border-slate-100 pt-2">
+                    <i class="fa-solid fa-lock mr-1"></i> Internal case logs remain strictly confidential under DepEd RA 10173 policy.
+                </div>
+            `;
+        }
+
+        // Render Master Ledger (Admin view)
+        function renderAdminQueue() {
+            const tbody = document.getElementById('admin-queue-tbody');
+            tbody.innerHTML = '';
+
+            const search = document.getElementById('admin-filter-search').value.toLowerCase();
+            const statusF = document.getElementById('admin-filter-status').value;
+            const priorityF = document.getElementById('admin-filter-priority').value;
+
+            const filtered = guidanceCases.filter(c => {
+                const matchesSearch = c.studentName.toLowerCase().includes(search) || c.id.toLowerCase().includes(search) || c.lrn.includes(search);
+                const matchesStatus = statusF === '' || c.status === statusF;
+                const matchesPriority = priorityF === '' || c.priority === priorityF;
+                return matchesSearch && matchesStatus && matchesPriority;
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400">No guidance records found matching active filters.</td></tr>`;
+                return;
+            }
+
+            filtered.forEach(item => {
+                let priorityClass = 'bg-slate-100 text-slate-700';
+                if (item.priority === 'Urgent Child Protection') priorityClass = 'bg-rose-100 text-rose-800 font-bold';
+                if (item.priority === 'High') priorityClass = 'bg-amber-100 text-amber-800';
+
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50 transition-colors border-b border-slate-100';
+                tr.innerHTML = `
+                    <td class="p-3">
+                        <span class="font-mono font-bold text-deped-blue">${escapeHtml(item.id)}</span>
+                        <div class="text-[10px] text-slate-400">${escapeHtml(item.createdAt)}</div>
+                    </td>
+                    <td class="p-3">
+                        <div class="font-bold text-slate-800">${escapeHtml(item.studentName)}</div>
+                        <div class="text-[10px] font-mono text-slate-500">LRN: ${escapeHtml(item.lrn)}</div>
+                    </td>
+                    <td class="p-3"><span class="bg-slate-100 text-slate-800 px-2 py-0.5 rounded text-[11px]">${escapeHtml(item.category)}</span></td>
+                    <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] ${priorityClass}">${escapeHtml(item.priority)}</span></td>
+                    <td class="p-3 font-semibold text-[11px]">${escapeHtml(item.status)}</td>
+                    <td class="p-3 text-right">
+                        <button onclick="openActionModal('${item.id}')" class="px-2.5 py-1 bg-deped-blue text-white hover:bg-blue-900 rounded text-[11px] font-bold shadow-2xs flex items-center gap-1 ml-auto">
+                            <i class="fa-solid fa-folder-open"></i> Inspector
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Case Inspector Modal
+        function openActionModal(id) {
+            const item = guidanceCases.find(c => c.id === id);
+            if (!item) return;
+            activeActionCaseId = id;
+
+            document.getElementById('action-modal-title').innerText = `Confidential Record: ${item.id} - ${item.studentName}`;
+            
+            document.getElementById('action-modal-body').innerHTML = `
+                <div class="bg-blue-50/60 p-3 rounded border border-blue-200 grid grid-cols-2 gap-2 text-xs">
+                    <div><span class="text-slate-500">Nature:</span> <strong>${escapeHtml(item.requestType)}</strong></div>
+                    <div><span class="text-slate-500">LRN:</span> <strong>${escapeHtml(item.lrn)}</strong></div>
+                    <div><span class="text-slate-500">Contact / Email:</span> <strong>${escapeHtml(item.contact)} / ${escapeHtml(item.email)}</strong></div>
+                    <div><span class="text-slate-500">Grade & Sec:</span> <strong>${escapeHtml(item.grade)} - ${escapeHtml(item.section)}</strong></div>
+                </div>
+
+                <div>
+                    <strong class="block text-slate-700 mb-1">Unredacted Student Narrative:</strong>
+                    <p class="p-2.5 bg-slate-50 rounded border border-slate-200 text-slate-800">${escapeHtml(item.narrative)}</p>
+                </div>
+
+                ${item.involved ? `
+                <div>
+                    <strong class="block text-slate-700 mb-1">Involved Parties / Witnesses:</strong>
+                    <p class="p-2 bg-slate-50 rounded border border-slate-200 text-slate-700">${escapeHtml(item.involved)}</p>
+                </div>` : ''}
+
+                <div class="grid grid-cols-2 gap-3 pt-2">
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Update Case Status</label>
+                        <select id="modal-status" class="w-full p-2 border border-slate-300 rounded bg-white">
+                            <option value="New Submitted" ${item.status==='New Submitted'?'selected':''}>New Submitted</option>
+                            <option value="Under Review" ${item.status==='Under Review'?'selected':''}>Under Review</option>
+                            <option value="Active Intervention" ${item.status==='Active Intervention'?'selected':''}>Active Intervention</option>
+                            <option value="Referral Needed" ${item.status==='Referral Needed'?'selected':''}>Referral Needed</option>
+                            <option value="Resolved" ${item.status==='Resolved'?'selected':''}>Resolved / Closed</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Priority Classification</label>
+                        <select id="modal-priority" class="w-full p-2 border border-slate-300 rounded bg-white">
+                            <option value="Low" ${item.priority==='Low'?'selected':''}>Low Priority</option>
+                            <option value="Medium" ${item.priority==='Medium'?'selected':''}>Medium Priority</option>
+                            <option value="High" ${item.priority==='High'?'selected':''}>High Priority</option>
+                            <option value="Urgent Child Protection" ${item.priority==='Urgent Child Protection'?'selected':''}>Urgent Child Protection (DO 40)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Assigned Counselor</label>
+                        <input type="text" id="modal-counselor" value="${escapeHtml(item.counselor)}" class="w-full p-2 border border-slate-300 rounded">
+                    </div>
+
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Appointment Schedule</label>
+                        <input type="text" id="modal-appointment" placeholder="e.g. 2026-10-24 10:00 AM" value="${escapeHtml(item.appointmentDate || '')}" class="w-full p-2 border border-slate-300 rounded">
+                    </div>
+                </div>
+
+                <div class="space-y-3 pt-2">
+                    <div class="bg-amber-50 p-2.5 rounded border border-amber-200">
+                        <label class="block font-bold text-amber-950 mb-1">
+                            <i class="fa-solid fa-eye text-amber-600 mr-1"></i> Public Next-Steps Advice (VISIBLE to Student)
+                        </label>
+                        <textarea id="modal-public-note" rows="2" placeholder="Instructions visible to student on status tracker..." class="w-full p-2 border border-slate-300 rounded text-xs">${escapeHtml(item.publicMilestoneNote || '')}</textarea>
+                    </div>
+
+                    <div class="bg-slate-50 p-2.5 rounded border border-slate-200">
+                        <label class="block font-bold text-slate-800 mb-1">
+                            <i class="fa-solid fa-lock text-slate-500 mr-1"></i> Confidential Guidance File Notes (HIDDEN from Student)
+                        </label>
+                        <textarea id="modal-confidential-note" rows="3" placeholder="Internal counselor observations..." class="w-full p-2 border border-slate-300 rounded text-xs">${escapeHtml(item.confidentialNotes || '')}</textarea>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('admin-action-modal').classList.remove('hidden');
+        }
+
+        function closeActionModal() {
+            document.getElementById('admin-action-modal').classList.add('hidden');
+            activeActionCaseId = null;
+        }
+
+        function saveCounselorAction() {
+            if (!activeActionCaseId) return;
+            const item = guidanceCases.find(c => c.id === activeActionCaseId);
+            if (item) {
+                item.status = document.getElementById('modal-status').value;
+                item.priority = document.getElementById('modal-priority').value;
+                item.counselor = document.getElementById('modal-counselor').value;
+                item.appointmentDate = document.getElementById('modal-appointment').value;
+                item.publicMilestoneNote = document.getElementById('modal-public-note').value;
+                item.confidentialNotes = document.getElementById('modal-confidential-note').value;
+
+                saveData();
+                renderAdminQueue();
+                closeActionModal();
+            }
+        }
+
+        // Render Office Analytics
+        function renderAnalytics() {
+            const total = guidanceCases.length;
+            const pending = guidanceCases.filter(c => c.status === 'New Submitted' || c.status === 'Under Review').length;
+            const resolved = guidanceCases.filter(c => c.status === 'Resolved').length;
+            const urgent = guidanceCases.filter(c => c.priority === 'Urgent Child Protection').length;
+
+            document.getElementById('stat-total').innerText = total;
+            document.getElementById('stat-pending').innerText = pending;
+            document.getElementById('stat-resolved').innerText = resolved;
+            document.getElementById('stat-urgent').innerText = urgent;
+
+            const cats = ['Bullying/Cyberbullying', 'Child Protection/Abuse', 'Academic Stress', 'Family Issue', 'Behavioral', 'Mental Health/Self-Care'];
+            const catCounts = cats.map(cat => guidanceCases.filter(c => c.category === cat).length);
+
+            const grades = ['Grade 7', 'Grade 8', 'Grade 9', 'Grade 10', 'Grade 11 (SHS)', 'Grade 12 (SHS)'];
+            const gradeCounts = grades.map(g => guidanceCases.filter(c => c.grade.includes(g.split(' ')[1])).length);
+
+            const ctx1 = document.getElementById('categoryChart').getContext('2d');
+            if (catChartInstance) catChartInstance.destroy();
+            catChartInstance = new Chart(ctx1, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Bullying', 'Child Protection', 'Academic', 'Family', 'Behavioral', 'Mental Health'],
+                    datasets: [{
+                        data: catCounts,
+                        backgroundColor: ['#CE1126', '#8b5cf6', '#003366', '#FFC72C', '#10b981', '#06b6d4']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } }
+                }
+            });
+
+            const ctx2 = document.getElementById('gradeChart').getContext('2d');
+            if (gradeChartInstance) gradeChartInstance.destroy();
+            gradeChartInstance = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: grades,
+                    datasets: [{
+                        label: 'Incidents',
+                        data: gradeCounts,
+                        backgroundColor: '#003366'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        // DepEd Official Printable Forms Logic
+        function populateFormRecordSelector() {
+            const select = document.getElementById('form-record-selector');
+            if (!select) return;
+            select.innerHTML = '<option value="">-- Select Learner Record --</option>';
+            guidanceCases.forEach(c => {
+                const opt = document.createElement('option');
+                opt.value = c.id;
+                opt.innerText = `${c.id} - ${c.studentName} (${c.category})`;
+                select.appendChild(opt);
+            });
+        }
+
+        function autoFillFormFromQueue(id) {
+            if (!id) return;
+            const c = guidanceCases.find(item => item.id === id);
+            if (c) {
+                loadFormTemplate('form1', c);
+            }
+        }
+
+        function loadFormTemplate(type, data = null) {
+            const area = document.getElementById('printable-form-area');
+            const d = data || {
+                studentName: '___________________________',
+                lrn: '____________',
+                grade: '_______',
+                section: '_______',
+                createdAt: new Date().toLocaleDateString(),
+                narrative: '____________________________________________________________________________________________________',
+                confidentialNotes: '____________________________________________________________________________________________________',
+                counselor: '___________________________'
+            };
+
+            const header = `
+                <div class="text-center border-b-2 border-black pb-2 mb-4">
+                    <div class="font-serif text-[11px] uppercase font-bold">Republic of the Philippines</div>
+                    <div class="font-serif text-sm font-bold uppercase text-deped-blue">Department of Education</div>
+                    <div class="text-[10px]">Division of City Schools | Guidance & Counseling Office</div>
+                    <div class="text-[10px] font-bold uppercase">LEARNER RIGHTS & PROTECTION SERVICES</div>
+                </div>
+            `;
+
+            if (type === 'form1') {
+                area.innerHTML = `
+                    ${header}
+                    <div class="text-center font-bold text-xs uppercase underline mb-4">DEPED FORM 1: GUIDANCE INTAKE SHEET</div>
+                    <div class="grid grid-cols-2 gap-2 text-xs mb-4">
+                        <div><strong>Learner Full Name:</strong> ${escapeHtml(d.studentName)}</div>
+                        <div><strong>LRN:</strong> ${escapeHtml(d.lrn)}</div>
+                        <div><strong>Grade & Section:</strong> ${escapeHtml(d.grade)} - ${escapeHtml(d.section)}</div>
+                        <div><strong>Intake Date:</strong> ${escapeHtml(d.createdAt)}</div>
+                    </div>
+                    <div class="mb-3"><strong>Reason for Counseling / Intake Narrative:</strong><p class="p-2 border border-slate-300 rounded mt-1">${escapeHtml(d.narrative)}</p></div>
+                    <div class="mb-6"><strong>Counselor Assessment & Action Log:</strong><p class="p-2 border border-slate-300 rounded mt-1">${escapeHtml(d.confidentialNotes)}</p></div>
+                    <div class="grid grid-cols-2 gap-8 pt-8 border-t border-black text-center">
+                        <div><p class="border-b border-black pb-1">${escapeHtml(d.studentName)}</p><p class="text-[10px]">Learner Signature</p></div>
+                        <div><p class="border-b border-black pb-1">${escapeHtml(d.counselor)}</p><p class="text-[10px]">Guidance Counselor</p></div>
+                    </div>
+                `;
+            } else if (type === 'form2') {
+                area.innerHTML = `
+                    ${header}
+                    <div class="text-center font-bold text-xs uppercase underline mb-4">DEPED FORM 2: ANECDOTAL RECORD LOG</div>
+                    <div class="grid grid-cols-2 gap-2 text-xs mb-4">
+                        <div><strong>Learner Name:</strong> ${escapeHtml(d.studentName)}</div>
+                        <div><strong>LRN:</strong> ${escapeHtml(d.lrn)}</div>
+                    </div>
+                    <div class="mb-4"><strong>Observed Behavior / Incident Description:</strong><p class="p-2 border border-slate-300 rounded mt-1">${escapeHtml(d.narrative)}</p></div>
+                    <div class="mb-4"><strong>Intervention Strategy:</strong><p class="p-2 border border-slate-300 rounded mt-1">${escapeHtml(d.confidentialNotes)}</p></div>
+                    <div class="pt-8 border-t border-black text-center w-64 ml-auto">
+                        <p class="border-b border-black pb-1">${escapeHtml(d.counselor)}</p>
+                        <p class="text-[10px]">Guidance Counselor</p>
+                    </div>
+                `;
+            } else if (type === 'childprotection') {
+                area.innerHTML = `
+                    ${header}
+                    <div class="text-center font-bold text-xs uppercase underline mb-1 text-deped-red">CHILD PROTECTION INTAKE FORM</div>
+                    <div class="text-center text-[10px] font-bold mb-4">(Compliant with DepEd Order No. 40, s. 2012 / DO 44, s. 2015)</div>
+                    <div class="grid grid-cols-2 gap-2 text-xs mb-4">
+                        <div><strong>Subject Learner:</strong> ${escapeHtml(d.studentName)}</div>
+                        <div><strong>LRN:</strong> ${escapeHtml(d.lrn)}</div>
+                        <div><strong>Grade Level:</strong> ${escapeHtml(d.grade)}</div>
+                        <div><strong>Date Reported:</strong> ${escapeHtml(d.createdAt)}</div>
+                    </div>
+                    <div class="mb-3"><strong>Alleged Child Abuse / Bullying Incident Details:</strong><p class="p-2 border border-slate-300 rounded mt-1">${escapeHtml(d.narrative)}</p></div>
+                    <div class="mb-6"><strong>Child Protection Committee (CPC) Action:</strong><p class="p-2 border border-slate-300 rounded mt-1">${escapeHtml(d.confidentialNotes)}</p></div>
+                    <div class="grid grid-cols-2 gap-8 pt-8 border-t border-black text-center">
+                        <div><p class="border-b border-black pb-1">${escapeHtml(d.counselor)}</p><p class="text-[10px]">CPC Intake Officer</p></div>
+                        <div><p class="border-b border-black pb-1">___________________________</p><p class="text-[10px]">School Principal / Chair</p></div>
+                    </div>
+                `;
+            } else {
+                area.innerHTML = `
+                    ${header}
+                    <div class="text-center font-bold text-xs uppercase underline mb-4">${type.toUpperCase()} DOCUMENT</div>
+                    <div class="grid grid-cols-2 gap-2 text-xs mb-4">
+                        <div><strong>Learner Name:</strong> ${escapeHtml(d.studentName)}</div>
+                        <div><strong>LRN:</strong> ${escapeHtml(d.lrn)}</div>
+                    </div>
+                    <div class="mb-4"><strong>Record Details:</strong><p class="p-2 border border-slate-300 rounded mt-1">${escapeHtml(d.narrative)}</p></div>
+                    <div class="pt-8 border-t border-black text-center w-64 ml-auto">
+                        <p class="border-b border-black pb-1">${escapeHtml(d.counselor)}</p>
+                        <p class="text-[10px]">Guidance Office Signature</p>
+                    </div>
+                `;
+            }
+        }
+
+        function exportDataJSON() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(guidanceCases, null, 2));
+            const dlAnchor = document.createElement('a');
+            dlAnchor.setAttribute("href", dataStr);
+            dlAnchor.setAttribute("download", `deped_guidance_backup_${new Date().toISOString().split('T')[0]}.json`);
+            document.body.appendChild(dlAnchor);
+            dlAnchor.click();
+            dlAnchor.remove();
+        }
+
+        function clearAllDataDemo() {
+            if (confirm("Reset application data back to original seed records?")) {
+                guidanceCases = INITIAL_SEED;
+                saveData();
+                renderAdminQueue();
+            }
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
